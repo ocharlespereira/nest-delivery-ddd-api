@@ -23,3 +23,39 @@
 [] Somente o entregador que retirou a encomenda pode marcar ela como entregue
 [] Somente o admin pode alterar a senha de um usuário
 [] Não deve ser possível um entregador listar as encomendas de outro entregador
+
+## Complementar básico
+
+User (Usuário):
+
+id: Identificador único do usuário.
+name: Nome do usuário.
+email: Email do usuário.
+password: Senha do usuário.
+rule: Tipo de usuário (ADMIN, DELIVERY, MODERATOR)
+createdAt: Data e hora em que o usuário foi criado.
+updatedAt: Data e hora da última atualização do usuário.
+
+Order (Pedido):
+
+id: Identificador único do pedido.
+deliverymanId: Identificador do entregador responsável pelo pedido.
+recipientId: Identificador do destinatário do pedido.
+product: Nome ou descrição do produto.
+createdAt: Data e hora em que o pedido foi criado.
+updatedAt: Data e hora da última atualização do pedido.
+status: Estado atual do pedido (por exemplo, pendente, em trânsito, entregue).
+
+Recipient (Destinatário):
+
+id: Identificador único do destinatário.
+name: Nome do destinatário.
+address: Endereço do destinatário.
+phoneNumber: Número de telefone do destinatário.
+
+Deliveryman (Entregador):
+
+id: Identificador único do entregador.
+name: Nome do entregador.
+vehicle: Veículo usado pelo entregador (por exemplo, carro, moto).
+phoneNumber: Número de telefone do entregador.
