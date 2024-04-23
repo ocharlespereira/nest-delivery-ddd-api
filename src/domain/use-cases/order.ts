@@ -1,13 +1,17 @@
-import { randomUUID } from 'node:crypto';
+import { Order } from '../entities/order';
 
-export class Order {
-  public id: string;
-  public nameProdcut: string;
-  public quantity: number;
+interface OrderUseCaseRequest {
+  id: string;
+  nameProduct: string;
+  quantity: number;
+}
 
-  constructor(id?: string, nameProdcut: string, quantity: number) {
-    this.id = id ?? randomUUID();
-    this.nameProdcut = nameProdcut;
-    this.quantity = quantity;
+interface OrderUseCaseResponse {}
+
+export class OrderUseCase {
+  execute({ id, nameProduct, quantity }: OrderUseCaseRequest) {
+    const order = new Order(id, nameProduct, quantity);
+
+    return { order };
   }
 }
