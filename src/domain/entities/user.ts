@@ -1,18 +1,29 @@
+import { randomUUID } from 'node:crypto';
+
 class User {
-  public email: string;
+  public id: string;
   public name: string;
+  public email: string;
   public password: string;
-  public isAdmin: boolean;
+  public rule: string;
+  public createdAt?: string;
+  public updatedAt?: string;
 
   constructor(
-    email: string,
+    id?: string,
     name: string,
+    email: string,
     password: string,
-    isAdmin: boolean = false
+    rule: string,
+    createdAt?: string,
+    updatedAt?: string
   ) {
-    this.email = email;
+    this.id = id ?? randomUUID();
     this.name = name;
+    this.email = email;
     this.password = password;
-    this.isAdmin = isAdmin;
+    this.rule = rule;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
   }
 }
