@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { Entity } from '../core/entities/entity';
 
 interface OrderProps {
   deliverymanId: string;
@@ -9,22 +9,8 @@ interface OrderProps {
   updatedAt?: Date;
 }
 
-export class Order {
-  public id: string;
-  public deliverymanId: string;
-  public recipientId: string;
-  public product: string;
-  public status: string;
-  public createdAt: Date;
-  public updatedAt: Date;
-
+export class Order extends Entity {
   constructor(props: OrderProps, id?: string) {
-    this.id = id ?? randomUUID();
-    this.deliverymanId = props.deliverymanId;
-    this.recipientId = props.recipientId;
-    this.product = props.product;
-    this.status = props.status;
-    this.createdAt = props.createdAt ?? new Date();
-    this.updatedAt = props.updatedAt ?? new Date();
+    super(props, id);
   }
 }

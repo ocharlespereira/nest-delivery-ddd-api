@@ -1,29 +1,16 @@
-import { randomUUID } from 'node:crypto';
+import { Entity } from '../core/entities/entity';
 
-class User {
-  public id: string;
-  public name: string;
-  public email: string;
-  public password: string;
-  public rule: string;
-  public createdAt?: Date;
-  public updatedAt?: Date;
+interface UserProps {
+  name: string;
+  email: string;
+  password: string;
+  rule: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
-  constructor(
-    name: string,
-    email: string,
-    password: string,
-    rule: string,
-    createdAt?: Date,
-    updatedAt?: Date,
-    id?: string
-  ) {
-    this.id = id ?? randomUUID();
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.rule = rule;
-    this.createdAt = createdAt ?? new Date();
-    this.updatedAt = updatedAt ?? new Date();
+class User extends Entity<UserProps> {
+  constructor(props: UserProps, id?: string) {
+    super(props, id);
   }
 }
