@@ -23,8 +23,4 @@ export class Deliveryman extends Entity<DeliverymanProps> {
   get phoneNumber() {
     return this.props.phoneNumber;
   }
-
-  constructor(props: DeliverymanProps, id?: string) {
-    super(props, id);
-  }
 }

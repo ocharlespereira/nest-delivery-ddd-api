@@ -9,8 +9,4 @@ interface UserProps {
   updatedAt?: Date;
 }
 
-class User extends Entity<UserProps> {
-  constructor(props: UserProps, id?: string) {
-    super(props, id);
-  }
-}
+class User extends Entity<UserProps> {}

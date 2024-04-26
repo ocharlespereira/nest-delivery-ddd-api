@@ -9,8 +9,4 @@ interface OrderProps {
   updatedAt?: Date;
 }
 
-export class Order extends Entity {
-  constructor(props: OrderProps, id?: string) {
-    super(props, id);
-  }
-}
+export class Order extends Entity<OrderProps> {}

@@ -6,8 +6,4 @@ interface RecipientProps {
   phoneNumber: string;
 }
 
-class Recipient extends Entity {
-  constructor(props: RecipientProps, id?: string) {
-    super(props, id);
-  }
-}
+class Recipient extends Entity<RecipientProps> {}
