@@ -1,4 +1,5 @@
 import { Entity } from '../core/entities/entity';
+import { Optional } from '../core/types/optional';
 
 interface OrderProps {
   deliverymanId: string;
@@ -9,4 +10,13 @@ interface OrderProps {
   updatedAt?: Date;
 }
 
-export class Order extends Entity<OrderProps> {}
+export class Order extends Entity<OrderProps> {
+  static create(props: Optional<OrderProps, 'createdAt'>) {
+    const order = new Order({
+      ...props,
+      createdAt: new Date(),
+    });
+
+    return order;
+  }
+}

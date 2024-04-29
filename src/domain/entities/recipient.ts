@@ -1,4 +1,5 @@
 import { Entity } from '../core/entities/entity';
+import { Optional } from '../core/types/optional';
 
 interface RecipientProps {
   name: string;
@@ -8,4 +9,13 @@ interface RecipientProps {
   updatedAt?: Date;
 }
 
-class Recipient extends Entity<RecipientProps> {}
+class Recipient extends Entity<RecipientProps> {
+  static create(props: Optional<RecipientProps, 'createdAt'>) {
+    const recipient = new Recipient({
+      ...props,
+      createdAt: new Date(),
+    });
+
+    return recipient;
+  }
+}
