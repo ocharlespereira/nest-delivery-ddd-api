@@ -5,7 +5,7 @@ interface OrderProps {
   recipientId: string;
   product: string;
   status: string;
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
 }
 

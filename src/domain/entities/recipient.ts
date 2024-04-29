@@ -4,6 +4,8 @@ interface RecipientProps {
   name: string;
   address: string;
   phoneNumber: string;
+  createdAt: Date;
+  updatedAt?: Date;
 }
 
 class Recipient extends Entity<RecipientProps> {}
