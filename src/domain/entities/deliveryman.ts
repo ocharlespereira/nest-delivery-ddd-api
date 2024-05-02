@@ -20,12 +20,31 @@ export class Deliveryman extends Entity<DeliverymanProps> {
     return this.props.name;
   }
 
+  set name(name: string) {
+    this.props.name = name;
+    this.touch();
+  }
+
   get vehicle() {
     return this.props.vehicle;
   }
 
+  set vehicle(vehicle: string) {
+    this.props.vehicle = vehicle;
+    this.touch();
+  }
+
   get phoneNumber() {
     return this.props.phoneNumber;
+  }
+
+  set phoneNumber(phoneNumber: string) {
+    this.props.phoneNumber = phoneNumber;
+    this.touch();
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date();
   }
 
   static create(
