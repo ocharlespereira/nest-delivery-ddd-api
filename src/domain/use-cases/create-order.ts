@@ -9,9 +9,5 @@ interface OrderUseCaseRequest {
 interface OrderUseCaseResponse {}
 
 export class OrderUseCase {
-  execute({ id, nameProduct, quantity }: OrderUseCaseRequest) {
-    const order = new Order(id, nameProduct, quantity);
-
-    return { order };
-  }
+  execute({ id, nameProduct, quantity }: OrderUseCaseRequest) {}
 }
