@@ -1,1 +1,8 @@
 node_modules
+dist
+
+data
+docker-compose.yml
+
+.env
+.env.dev
