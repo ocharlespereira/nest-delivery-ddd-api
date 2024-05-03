@@ -10,7 +10,7 @@ interface UserProps {
   updatedAt?: Date;
 }
 
-class User extends Entity<UserProps> {
+export class User extends Entity<UserProps> {
   get name() {
     return this.props.name;
   }
