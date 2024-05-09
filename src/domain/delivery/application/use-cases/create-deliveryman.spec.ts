@@ -12,6 +12,7 @@ describe('Create Deliveryman', () => {
   })
 
   it('should create a deliveryman', async () => {
+    console.log('sut :', sut)
     const { deliveryman } = await sut.execute({
       name: 'John Doe',
       vehicle: 'Car',
