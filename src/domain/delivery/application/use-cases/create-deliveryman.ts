@@ -1,5 +1,5 @@
-import { Deliveryman } from '@domain/delivery/enterprise/entities/deliveryman'
-import { DeliverymanRepository } from '@domain/delivery/application/repositories/deliveryman-repository'
+import { Deliveryman } from '@/domain/delivery/enterprise/entities/deliveryman'
+import { DeliverymanRepository } from '@/domain/delivery/application/repositories/deliveryman-repository'
 
 interface CreateDeliverymanUseCaseRequest {
   name: string
