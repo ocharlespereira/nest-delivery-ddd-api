@@ -18,7 +18,6 @@ describe('Create Deliveryman', () => {
       vehicle: 'Car',
       phoneNumber: '123456789',
     })
-    console.log('deliveryman :', deliveryman)
 
     expect(deliveryman.id).toBeTruthy()
   })
