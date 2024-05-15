@@ -12,9 +12,8 @@ describe('Create Recipient', () => {
   })
 
   it('should create a recipient', async () => {
-    console.log('sut :', sut)
     const { recipient } = await sut.execute({
-      address: 'Address',
+      address: 'Address ',
       name: 'Name',
       phoneNumber: 'Phone Number',
     })

@@ -12,7 +12,6 @@ describe('Create Order', () => {
   })
 
   it('should create a order', async () => {
-    console.log('sut :', sut)
     const { order } = await sut.execute({
       deliverymanId: '1',
       recipientId: '2',
