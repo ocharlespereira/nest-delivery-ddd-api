@@ -1,3 +1,4 @@
+import { makeOrder } from 'test/factories/make-order'
 import { Order } from '../../enterprise/entities/order'
 import { GetOrderByProductUserCase } from './get-order-by-product'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order-repository'
@@ -13,12 +14,7 @@ describe('Create Order', () => {
   })
 
   it('should be able to get a product by order', async () => {
-    const newOrder = Order.create({
-      deliverymanId: '1',
-      recipientId: '2',
-      product: 'new product',
-      status: 'Pending',
-    })
+    const newOrder = makeOrder()
 
     inMemoryOrderRepository.create(newOrder)
 
