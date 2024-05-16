@@ -1,9 +1,10 @@
 import { Entity } from '@/core/entities/entity'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-interface OrderProps {
-  deliverymanId: string
-  recipientId: string
+export interface OrderProps {
+  deliverymanId: UniqueEntityID
+  recipientId: UniqueEntityID
   product: string
   status: string
   createdAt: Date
