@@ -9,6 +9,7 @@ export const makeOrder = (
 ): Order => {
   const order = Order.create(
     {
+      orderId: new UniqueEntityID(),
       deliverymanId: new UniqueEntityID(),
       recipientId: new UniqueEntityID(),
       product: faker.commerce.product(),

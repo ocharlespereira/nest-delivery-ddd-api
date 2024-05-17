@@ -3,6 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 export interface OrderProps {
+  orderId: UniqueEntityID
   deliverymanId: UniqueEntityID
   recipientId: UniqueEntityID
   product: string
@@ -12,6 +13,10 @@ export interface OrderProps {
 }
 
 export class Order extends Entity<OrderProps> {
+  get orderId() {
+    return this.props.orderId
+  }
+
   get deliverymanId() {
     return this.props.deliverymanId
   }
