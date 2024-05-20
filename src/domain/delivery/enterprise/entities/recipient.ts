@@ -1,8 +1,7 @@
 import { Entity } from '@/core/entities/entity'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-export interface RecipientProps {
+interface RecipientProps {
   name: string
   address: string
   phoneNumber: string
@@ -50,17 +49,11 @@ export class Recipient extends Entity<RecipientProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(
-    props: Optional<RecipientProps, 'createdAt'>,
-    id?: UniqueEntityID,
-  ) {
-    const recipient = new Recipient(
-      {
-        ...props,
-        createdAt: new Date(),
-      },
-      id,
-    )
+  static create(props: Optional<RecipientProps, 'createdAt'>) {
+    const recipient = new Recipient({
+      ...props,
+      createdAt: new Date(),
+    })
 
     return recipient
   }
