@@ -14,6 +14,16 @@ export class InMemoryRecipientRepository implements RecipientRepository {
     return recipient
   }
 
+  async findByName(name: string) {
+    const recipient = this.items.find((item) => item.name === name)
+
+    if (!recipient) {
+      return null
+    }
+
+    return recipient
+  }
+
   async create(recipient: Recipient) {
     this.items.push(recipient)
   }
