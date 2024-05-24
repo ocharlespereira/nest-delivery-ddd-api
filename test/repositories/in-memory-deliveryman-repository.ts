@@ -16,6 +16,16 @@ export class InMemoryDeliverymanRepository implements DeliverymanRepository {
     return deliveryman
   }
 
+  async findByName(name: string) {
+    const deliveryman = this.items.find((item) => item.name === name)
+
+    if (!deliveryman) {
+      return undefined
+    }
+
+    return deliveryman
+  }
+
   async create(deliveryman: Deliveryman) {
     this.items.push(deliveryman)
   }
