@@ -24,6 +24,16 @@ export class InMemoryOrderRepository implements OrderRepository {
     return order
   }
 
+  async save(order: Order) {
+    const itemIndex = this.items.findIndex((item) => item.id === order.id)
+
+    if (!order) {
+      throw new Error('Order not found')
+    }
+
+    this.items[itemIndex] = order
+  }
+
   async create(order: Order) {
     this.items.push(order)
   }
