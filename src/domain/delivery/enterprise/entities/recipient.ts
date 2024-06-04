@@ -3,7 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 export interface RecipientProps {
-  recipientId: string
+  recipientId?: UniqueEntityID
   name: string
   address: string
   phoneNumber: string
@@ -16,10 +16,10 @@ export class Recipient extends Entity<RecipientProps> {
     return this.props.recipientId
   }
 
-  set recipientId(recipientId: string) {
-    this.props.recipientId = recipientId
-    this.touch()
-  }
+  // set recipientId(recipientId: string) {
+  //   this.props.recipientId = recipientId
+  //   this.touch()
+  // }
 
   get name() {
     return this.props.name
