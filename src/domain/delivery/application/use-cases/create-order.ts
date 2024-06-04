@@ -1,9 +1,10 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Order } from '../../enterprise/entities/order'
 import { OrderRepository } from '../repositories/order-repository'
+import { DeliverymanRepository } from '../repositories/deliveryman-repository'
+import { RecipientRepository } from '../repositories/recipient-repository'
 
 interface CreateOrderUserCaseRequest {
-  orderId: string
   deliverymanId: string
   recipientId: string
   product: string
@@ -15,19 +16,33 @@ interface CreateOrderUserCaseResponse {
 }
 
 export class CreateOrderUserCase {
-  constructor(private orderRepository: OrderRepository) {}
+  constructor(
+    private orderRepository: OrderRepository,
+    private deliverymanRepository: DeliverymanRepository,
+    private recipientRepository: RecipientRepository,
+  ) {}
 
   async execute({
-    orderId,
     deliverymanId,
     recipientId,
     product,
     status,
   }: CreateOrderUserCaseRequest): Promise<CreateOrderUserCaseResponse> {
+    const deliveryman = await this.deliverymanRepository.findById(deliverymanId)
+    const repicipient = await this.recipientRepository.findById(recipientId)
+
+    if (!deliveryman) {
+      throw new Error('Deliveryman not found')
+    }
+
+    if (!repicipient) {
+      throw new Error('Recipient not found')
+    }
+
     const order = Order.create({
       orderId: new UniqueEntityID(),
-      deliverymanId: new UniqueEntityID(),
-      recipientId: new UniqueEntityID(),
+      deliverymanId: deliveryman.id,
+      recipientId: repicipient.id,
       product,
       status,
     })
