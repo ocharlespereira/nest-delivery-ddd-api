@@ -1,22 +1,22 @@
 import { Order } from '../../enterprise/entities/order'
 import { OrderRepository } from '../repositories/order-repository'
 
-interface GetOrderStatusUseCaseRequest {
+interface OrderStatusUseCaseRequest {
   orderId: string
-  status: string
+  status: 'waiting' | 'in-transit' | 'delivered' | 'canceled'
 }
 
-interface GetOrderStatusUseCaseResponse {
+interface OrderStatusUseCaseResponse {
   order: Order
 }
 
-export class GetOrderStatusUseCase {
+export class OrderStatusUseCase {
   constructor(private orderRepository: OrderRepository) {}
 
   async execute({
     orderId,
     status,
-  }: GetOrderStatusUseCaseRequest): Promise<GetOrderStatusUseCaseResponse> {
+  }: OrderStatusUseCaseRequest): Promise<OrderStatusUseCaseResponse> {
     const order = await this.orderRepository.findById(orderId)
 
     if (!order) {
