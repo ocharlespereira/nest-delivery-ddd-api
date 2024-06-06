@@ -23,6 +23,12 @@ export class OrderStatusUseCase {
       throw new Error('Order not found')
     }
 
+    const validStatuses = ['waiting', 'in-transit', 'delivered', 'canceled']
+
+    if(!validStatuses.includes(status)) {
+      throw new Error('Invalid status')
+    }
+
     order.status = status
 
     await this.orderRepository.save(order)
