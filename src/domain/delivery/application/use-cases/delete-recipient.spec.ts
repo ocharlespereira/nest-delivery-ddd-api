@@ -13,7 +13,7 @@ describe('Delete Recipient', () => {
     sut = new DeleteRecipientUserCase(inMemoryRecipientRepository)
   })
 
-  it('should delete a recipient', async () => {
+  it('should be able delete a recipient', async () => {
     const newRecipient = makeRecipient({}, new UniqueEntityID('recipient-1'))
 
     await inMemoryRecipientRepository.create(newRecipient)
@@ -21,6 +21,16 @@ describe('Delete Recipient', () => {
     await sut.execute({
       recipientId: 'recipient-1',
     })
+
+    expect(inMemoryRecipientRepository.items.length).toBe(0)
+  })
+
+  it('should throw an error when trying to delete a non-existent recipient', async () => {
+    await expect(
+      sut.execute({
+        recipientId: 'non-existent-recipient',
+      }),
+    ).rejects.toThrow()
 
     expect(inMemoryRecipientRepository.items.length).toBe(0)
   })
