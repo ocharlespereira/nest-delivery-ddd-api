@@ -27,4 +27,14 @@ describe('Delete Deliveryman', () => {
 
     expect(inMemoryDeliverymanRepository.items.length).toBe(0)
   })
+
+  it('should throw an error when trying to delete a non-existent deliveryman', async () => {
+    const nonExistentDeliverymanId = 'non-existent-deliveryman';
+
+    await expect(sut.execute({
+      deliverymanId: nonExistentDeliverymanId,
+    })).rejects.toThrow('Deliveryman not found'); 
+
+    expect(inMemoryDeliverymanRepository.items.length).toBe(0); 
+  })
 })
