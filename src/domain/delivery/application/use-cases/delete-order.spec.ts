@@ -24,4 +24,15 @@ describe('Delete Order', () => {
 
     expect(inMemoryOrderRepository.items.length).toBe(0)
   })
+
+  // TypeScript
+  it('should throw an error when trying to delete a non-existent order', async () => {
+    await expect(
+      sut.execute({
+        orderId: 'non-existent-order',
+      }),
+    ).rejects.toThrow() // Verifique se um erro é lançado
+
+    expect(inMemoryOrderRepository.items.length).toBe(0) // O repositório ainda deve estar vazio
+  })
 })
