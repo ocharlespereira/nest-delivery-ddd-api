@@ -33,4 +33,16 @@ describe('Edit Order', () => {
       status: 'new-status',
     })
   })
+
+  it('should throw an error when trying to edit a non-existent order', async () => {
+    const nonExistentOrderId = 'non-existent-order';
+  
+    await expect(sut.execute({
+      orderId: nonExistentOrderId,
+      product: 'new-product',
+      status: 'new-status',
+    })).rejects.toThrow('Order not found');
+  
+    expect(inMemoryOrderRepository.items.length).toBe(0);
+  })
 })
