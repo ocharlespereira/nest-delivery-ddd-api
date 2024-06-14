@@ -46,4 +46,17 @@ describe('Create Order', () => {
 
     expect(order.id).toBeTruthy()
   })
+
+  it('should throw an error if the deliveryman is not found', async () => {
+    const nonExistentDeliverymanId = 'non-existent-deliveryman'
+
+    await expect(
+      sut.execute({
+        deliverymanId: nonExistentDeliverymanId,
+        recipientId: 'valid-recipient-id',
+        product: 'product',
+        status: 'status',
+      }),
+    ).rejects.toThrow('Deliveryman not found') // Verifique se um erro é lançado
+  })
 })

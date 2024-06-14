@@ -19,7 +19,6 @@ describe('Edit Recipient', () => {
     await inMemoryRecipientRepository.create(newRecipient)
 
     const editRecipient = makeRecipient({}, new UniqueEntityID('recipient-1'))
-    console.log('editRecipient :', editRecipient)
 
     await inMemoryRecipientRepository.save(editRecipient)
 
