@@ -36,4 +36,18 @@ describe('Edit Recipient', () => {
       phoneNumber: 'new-phone-number',
     })
   })
+
+  it('should throw an error when trying to edit a non-existent recipient', async () => {
+    const nonExistentRecipientId = 'non-existent-recipient'
+
+    await expect(
+      sut.execute({
+        recipientId: nonExistentRecipientId,
+        name: 'new-name',
+        address: 'new-address',
+      }),
+    ).rejects.toThrow('Recipient not found')
+
+    expect(inMemoryRecipientRepository.items.length).toBe(0)
+  })
 })
