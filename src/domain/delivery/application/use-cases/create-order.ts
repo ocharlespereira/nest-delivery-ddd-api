@@ -3,6 +3,7 @@ import { Order } from '../../enterprise/entities/order'
 import { OrderRepository } from '../repositories/order-repository'
 import { DeliverymanRepository } from '../repositories/deliveryman-repository'
 import { RecipientRepository } from '../repositories/recipient-repository'
+import { Either, failure, success } from '@/core/either'
 
 interface CreateOrderUserCaseRequest {
   deliverymanId: string
@@ -11,10 +12,12 @@ interface CreateOrderUserCaseRequest {
   status: string
 }
 
-interface CreateOrderUserCaseResponse {
-  order: Order
-}
-
+type CreateOrderUserCaseResponse = Either<
+  {
+    order: Order
+  },
+  {}
+>
 export class CreateOrderUserCase {
   constructor(
     private orderRepository: OrderRepository,
@@ -32,11 +35,11 @@ export class CreateOrderUserCase {
     const repicipient = await this.recipientRepository.findById(recipientId)
 
     if (!deliveryman) {
-      throw new Error('Deliveryman not found')
+      return failure('Deliveryman not found')
     }
 
     if (!repicipient) {
-      throw new Error('Recipient not found')
+      return failure('Recipient not found')
     }
 
     const order = Order.create({
@@ -49,8 +52,6 @@ export class CreateOrderUserCase {
 
     await this.orderRepository.create(order)
 
-    return {
-      order,
-    }
+    return success({ order })
   }
 }

@@ -1,8 +1,16 @@
 import { OrderRepository } from '@/domain/delivery/application/repositories/order-repository'
 import { Order } from '@/domain/delivery/enterprise/entities/order'
+import { InMemoryRecipientRepository } from './in-memory-recipient-repository'
+import { InMemoryDeliverymanRepository } from './in-memory-deliveryman-repository'
 
+// CRIAR RELAÇAO ENTRE REPOSITORIOS
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
+
+  // constructor(
+  //   private inMemoryDeliverymanRepository: InMemoryDeliverymanRepository,
+  //   private inMemoryRecipientRepository: InMemoryRecipientRepository,
+  // ) {}
 
   async findById(id: string) {
     const order = this.items.find((order) => order.id.toString() === id)
