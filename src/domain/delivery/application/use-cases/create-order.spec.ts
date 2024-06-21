@@ -5,6 +5,7 @@ import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipie
 import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeRecipient } from 'test/factories/make-recipient'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryDeliverymanRepository: InMemoryDeliverymanRepository
@@ -37,26 +38,27 @@ describe('Create Order', () => {
 
     await inMemoryRecipientRepository.create(newRecipient)
 
-    const { order } = await sut.execute({
+    const result = await sut.execute({
       deliverymanId: newDeliveryman.id.toString(),
       recipientId: newRecipient.id.toString(),
       product: 'Product',
       status: 'waiting',
     })
 
-    expect(order.id).toBeTruthy()
+    expect(result.isSuccess()).toBeTruthy()
   })
 
   it('should throw an error if the deliveryman is not found', async () => {
     const nonExistentDeliverymanId = 'non-existent-deliveryman'
 
-    await expect(
-      sut.execute({
-        deliverymanId: nonExistentDeliverymanId,
-        recipientId: 'valid-recipient-id',
-        product: 'product',
-        status: 'status',
-      }),
-    ).rejects.toThrow('Deliveryman not found') // Verifique se um erro é lançado
+    const result = await sut.execute({
+      deliverymanId: nonExistentDeliverymanId,
+      recipientId: 'valid-recipient-id',
+      product: 'product',
+      status: 'status',
+    })
+
+    expect(result.isFailure()).toBeTruthy()
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
