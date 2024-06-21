@@ -4,6 +4,7 @@ import { OrderRepository } from '../repositories/order-repository'
 import { DeliverymanRepository } from '../repositories/deliveryman-repository'
 import { RecipientRepository } from '../repositories/recipient-repository'
 import { Either, failure, success } from '@/core/either'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 interface CreateOrderUserCaseRequest {
   deliverymanId: string
@@ -16,7 +17,7 @@ type CreateOrderUserCaseResponse = Either<
   {
     order: Order
   },
-  {}
+  ResourceNotFoundError
 >
 export class CreateOrderUserCase {
   constructor(
@@ -35,11 +36,11 @@ export class CreateOrderUserCase {
     const repicipient = await this.recipientRepository.findById(recipientId)
 
     if (!deliveryman) {
-      return failure('Deliveryman not found')
+      return failure( new ResourceNotFoundError('Deliveryman'))
     }
 
     if (!repicipient) {
-      return failure('Recipient not found')
+      return failure(new ResourceNotFoundError('Recipient'))
     }
 
     const order = Order.create({
