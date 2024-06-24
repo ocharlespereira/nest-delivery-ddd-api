@@ -1,10 +1,12 @@
+import { Either, failure, success } from '@/core/either'
 import { DeliverymanRepository } from '../repositories/deliveryman-repository'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 interface DeleteDeliverymanUserCaseRequest {
   deliverymanId: string
 }
 
-interface DeleteDeliverymanUserCaseResponse {}
+type DeleteDeliverymanUserCaseResponse = Either<null, ResourceNotFoundError>
 
 export class DeleteDeliverymanUserCase {
   constructor(private deliverymanRepository: DeliverymanRepository) {}
@@ -15,11 +17,11 @@ export class DeleteDeliverymanUserCase {
     const deliveryman = await this.deliverymanRepository.findById(deliverymanId)
 
     if (!deliveryman) {
-      throw new Error('Deliveryman not found')
+      return failure(new ResourceNotFoundError('Deliveryman'))
     }
 
     await this.deliverymanRepository.delete(deliveryman)
 
-    return {}
+    return success(null)
   }
 }

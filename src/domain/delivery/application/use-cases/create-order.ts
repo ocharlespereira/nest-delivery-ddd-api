@@ -36,7 +36,7 @@ export class CreateOrderUserCase {
     const repicipient = await this.recipientRepository.findById(recipientId)
 
     if (!deliveryman) {
-      return failure( new ResourceNotFoundError('Deliveryman'))
+      return failure(new ResourceNotFoundError('Deliveryman'))
     }
 
     if (!repicipient) {
