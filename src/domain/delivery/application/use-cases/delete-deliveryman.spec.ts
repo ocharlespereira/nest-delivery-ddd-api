@@ -2,6 +2,7 @@ import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { DeleteDeliverymanUserCase } from './delete-deliveryman'
 import { InMemoryDeliverymanRepository } from 'test/repositories/in-memory-deliveryman-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 let inMemoryDeliverymanRepository: InMemoryDeliverymanRepository
 let sut: DeleteDeliverymanUserCase
@@ -29,12 +30,15 @@ describe('Delete Deliveryman', () => {
   })
 
   it('should throw an error when trying to delete a non-existent deliveryman', async () => {
-    const nonExistentDeliverymanId = 'non-existent-deliveryman';
+    const nonExistentDeliverymanId = 'non-existent-deliveryman'
 
-    await expect(sut.execute({
+    const result = await sut.execute({
       deliverymanId: nonExistentDeliverymanId,
-    })).rejects.toThrow('Deliveryman not found'); 
+    })
+    console.log('result :', result.value)
 
-    expect(inMemoryDeliverymanRepository.items.length).toBe(0); 
+    expect(result.isFailure()).toBeTruthy()
+
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
