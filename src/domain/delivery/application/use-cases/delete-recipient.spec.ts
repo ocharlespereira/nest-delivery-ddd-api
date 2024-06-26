@@ -31,7 +31,7 @@ describe('Delete Recipient', () => {
       recipientId: 'non-existent-recipient',
     })
 
-    expect(result.isSuccess()).toBeTruthy()
+    expect(result.isFailure()).toBeTruthy()
 
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
