@@ -2,6 +2,7 @@ import { makeOrder } from 'test/factories/make-order'
 import { DeleteOrderUserCase } from './delete-order'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let sut: DeleteOrderUserCase
@@ -27,12 +28,11 @@ describe('Delete Order', () => {
 
   // TypeScript
   it('should throw an error when trying to delete a non-existent order', async () => {
-    await expect(
-      sut.execute({
-        orderId: 'non-existent-order',
-      }),
-    ).rejects.toThrow() // Verifique se um erro é lançado
+    const result = await sut.execute({
+      orderId: 'non-existent-order',
+    })
 
-    expect(inMemoryOrderRepository.items.length).toBe(0) // O repositório ainda deve estar vazio
+    expect(result.isFailure()).toBeTruthy()
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
