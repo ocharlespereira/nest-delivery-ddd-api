@@ -6,7 +6,7 @@ interface DeleteOrderUserCaseRequest {
   orderId: string
 }
 
-type DeleteOrderUserCaseResponse = Either< {}, ResourceNotFoundError>
+type DeleteOrderUserCaseResponse = Either<{}, ResourceNotFoundError>
 
 export class DeleteOrderUserCase {
   constructor(private orderRepository: OrderRepository) {}
@@ -17,7 +17,7 @@ export class DeleteOrderUserCase {
     const order = await this.orderRepository.findById(orderId)
 
     if (!order) {
-      return failure(new ResourceNotFoundError('Order')
+      return failure(new ResourceNotFoundError('Order'))
     }
 
     await this.orderRepository.delete(order)
