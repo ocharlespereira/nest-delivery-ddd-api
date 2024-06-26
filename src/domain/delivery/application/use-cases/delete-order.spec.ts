@@ -26,7 +26,6 @@ describe('Delete Order', () => {
     expect(inMemoryOrderRepository.items.length).toBe(0)
   })
 
-  // TypeScript
   it('should throw an error when trying to delete a non-existent order', async () => {
     const result = await sut.execute({
       orderId: 'non-existent-order',
