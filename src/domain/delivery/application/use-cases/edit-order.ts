@@ -1,5 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { OrderRepository } from '../repositories/order-repository'
+import { Either, failure } from '@/core/either'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 interface EditOrderUserCaseRequest {
   orderId: string
@@ -7,7 +9,7 @@ interface EditOrderUserCaseRequest {
   status: string
 }
 
-interface EditOrderUserCaseResponse {}
+type EditOrderUserCaseResponse = Either< {}, ResourceNotFoundError>
 
 export class EditOrderUserCase {
   constructor(private orderRepository: OrderRepository) {}
@@ -20,7 +22,7 @@ export class EditOrderUserCase {
     const order = await this.orderRepository.findById(orderId)
 
     if (!order) {
-      throw new Error('Order not found')
+      return failure(new ResourceNotFoundError('Order'))
     }
 
     order.product = product
@@ -28,6 +30,6 @@ export class EditOrderUserCase {
 
     await this.orderRepository.save(order)
 
-    return {}
+    return success({})
   }
 }
