@@ -2,6 +2,7 @@ import { makeOrder } from 'test/factories/make-order'
 import { EditOrderUserCase } from './edit-order'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let sut: EditOrderUserCase
@@ -35,14 +36,16 @@ describe('Edit Order', () => {
   })
 
   it('should throw an error when trying to edit a non-existent order', async () => {
-    const nonExistentOrderId = 'non-existent-order';
-  
-    await expect(sut.execute({
+    const nonExistentOrderId = 'non-existent-order'
+
+    const result = await sut.execute({
       orderId: nonExistentOrderId,
       product: 'new-product',
       status: 'new-status',
-    })).rejects.toThrow('Order not found');
-  
-    expect(inMemoryOrderRepository.items.length).toBe(0);
+    })
+
+    expect(result.isFailure()).toBeTruthy()
+
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
