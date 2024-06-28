@@ -1,6 +1,5 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { OrderRepository } from '../repositories/order-repository'
-import { Either, failure } from '@/core/either'
+import { Either, failure, success } from '@/core/either'
 import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 interface EditOrderUserCaseRequest {
@@ -9,7 +8,7 @@ interface EditOrderUserCaseRequest {
   status: string
 }
 
-type EditOrderUserCaseResponse = Either< {}, ResourceNotFoundError>
+type EditOrderUserCaseResponse = Either<{}, ResourceNotFoundError>
 
 export class EditOrderUserCase {
   constructor(private orderRepository: OrderRepository) {}
