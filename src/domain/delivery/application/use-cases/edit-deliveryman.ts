@@ -1,28 +1,29 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DeliverymanRepository } from '../repositories/deliveryman-repository'
+import { Either, failure, success } from '@/core/either'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 interface EditDeliverymanUserCaseRequest {
-  idUser: string
+  deliverymanId: string
   name: string
   vehicle: string
   phoneNumber: string
 }
 
-interface EditDeliverymanUserCaseResponse {}
+type EditDeliverymanUserCaseResponse = Either<{}, ResourceNotFoundError>
 
 export class EditDeliverymanUserCase {
   constructor(private deliverymanRepository: DeliverymanRepository) {}
 
   async execute({
-    idUser,
+    deliverymanId,
     name,
     vehicle,
     phoneNumber,
   }: EditDeliverymanUserCaseRequest): Promise<EditDeliverymanUserCaseResponse> {
-    const deliveryman = await this.deliverymanRepository.findById(idUser)
+    const deliveryman = await this.deliverymanRepository.findById(deliverymanId)
 
     if (!deliveryman) {
-      throw new Error('Deliveryman not found')
+      return failure(new ResourceNotFoundError('Deliveryman'))
     }
 
     deliveryman.name = name
@@ -31,6 +32,6 @@ export class EditDeliverymanUserCase {
 
     await this.deliverymanRepository.save(deliveryman)
 
-    return {}
+    return success({})
   }
 }
