@@ -1,5 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { RecipientRepository } from '../repositories/recipient-repository'
+import { Either, failure, success } from '@/core/either'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 interface EditRecipientUserCaseRequest {
   recipientId: string
@@ -8,7 +10,7 @@ interface EditRecipientUserCaseRequest {
   phoneNumber: string
 }
 
-interface EditRecipientUserCaseResponse {}
+type EditRecipientUserCaseResponse = Either< {}, ResourceNotFoundError>
 
 export class EditRecipientUserCase {
   constructor(private recipientRepository: RecipientRepository) {}
@@ -22,7 +24,7 @@ export class EditRecipientUserCase {
     const recipient = await this.recipientRepository.findById(recipientId)
 
     if (!recipient) {
-      throw new Error('Recipient not found')
+      return failure(new ResourceNotFoundError('Recipient'))
     }
 
     recipient.name = name
@@ -31,6 +33,6 @@ export class EditRecipientUserCase {
 
     await this.recipientRepository.save(recipient)
 
-    return {}
+    return success({})
   }
 }
