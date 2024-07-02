@@ -2,6 +2,7 @@ import { makeRecipient } from 'test/factories/make-recipient'
 import { EditRecipientUserCase } from './edit-recipient'
 import { InMemoryRecipientRepository } from 'test/repositories/in-memory-recipient-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 let inMemoryRecipientRepository: InMemoryRecipientRepository
 let sut: EditRecipientUserCase
@@ -39,15 +40,15 @@ describe('Edit Recipient', () => {
   it('should throw an error when trying to edit a non-existent recipient', async () => {
     const nonExistentRecipientId = 'non-existent-recipient'
 
-    await expect(
-      sut.execute({
-        recipientId: nonExistentRecipientId,
-        name: 'new-name',
-        address: 'new-address',
-      }),
-    ).rejects.toThrow('Recipient not found')
+    const result = await sut.execute({
+      recipientId: nonExistentRecipientId,
+      name: 'new-name',
+      phoneNumber: 'new-phone-number',
+      address: 'new-address',
+    })
 
-    expect(inMemoryRecipientRepository.items.length).toBe(0)
+    expect(result.isFailure()).toBeTruthy()
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 
   it('should throw an error if the recipient is not found', async () => {
