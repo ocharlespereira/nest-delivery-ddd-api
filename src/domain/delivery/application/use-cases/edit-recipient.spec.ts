@@ -50,17 +50,4 @@ describe('Edit Recipient', () => {
     expect(result.isFailure()).toBeTruthy()
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
-
-  it('should throw an error if the recipient is not found', async () => {
-    const nonExistentRecipientId = 'non-existent-recipient'
-
-    await expect(
-      sut.execute({
-        deliverymanId: 'valid-deliveryman-id',
-        recipientId: nonExistentRecipientId,
-        product: 'product',
-        status: 'status',
-      }),
-    ).rejects.toThrow('Recipient not found')
-  })
 })
