@@ -1,6 +1,7 @@
 import { makeDeliveryman } from 'test/factories/make-deliveryman'
 import { GetDeliverymanByNameUserCase } from './get-deliveryman-by-name'
 import { InMemoryDeliverymanRepository } from 'test/repositories/in-memory-deliveryman-repository'
+import { ResourceNotFoundError } from './errors/resources-not-found-error'
 
 let inMemoryDeliverymanRepository: InMemoryDeliverymanRepository
 let sut: GetDeliverymanByNameUserCase
@@ -17,18 +18,19 @@ describe('Get Deliveryman', () => {
 
     await inMemoryDeliverymanRepository.create(newDeliveryman)
 
-    const { deliveryman } = await sut.execute({
+    const result = await sut.execute({
       name: 'new name',
     })
 
-    expect(deliveryman.id).toBeTruthy()
+    expect(result.isSuccess()).toBeTruthy()
   })
 
   it('should throw an error if the deliveryman is not found', async () => {
-    await expect(
-      sut.execute({
-        name: 'nonexistent name',
-      }),
-    ).rejects.toThrow('Deliveryman not found')
+    const result = await sut.execute({
+      name: 'nonexistent name',
+    })
+
+    expect(result.isFailure()).toBeTruthy()
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
